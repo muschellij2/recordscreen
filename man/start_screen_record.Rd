@@ -39,6 +39,8 @@ Start Screen Recording
 https://trac.ffmpeg.org/wiki/Capture/Desktop
 }
 \examples{
+res = Sys.which("ffmpeg")
+stopifnot(res != "")
 start_screen_record(run = FALSE)
 out = start_screen_record(audio = FALSE)
 Sys.sleep(2)
