@@ -15,8 +15,11 @@ knitr::opts_chunk$set(
 )
 ```
 # instructr Package: 
-The goal of `instructr` is to provide functions to reccord the screen with ffmpeg to be
-    able to show script execution.
+
+The goal of `instructr` is to provide functions to reccord the screen with `ffmpeg` to be able to show script execution.  A system installation `ffmpeg` is required, run to see if `ffmpeg` is in your `PATH`: 
+```r
+Sys.which("ffmpeg")
+```
 
 ## Installation
 
