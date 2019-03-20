@@ -1,4 +1,49 @@
-# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
-
 language: R
 cache: packages
+r_check_args: "--as-cran --install-args=--build"
+os:
+- linux
+- osx
+osx_image: xcode9
+
+env:
+  global:
+  - RGL_USE_NULL=TRUE
+  - DISPLAY=:99.0
+
+before_install:
+- export PROJ_DIR=`basename $PWD`
+- fname=travis_helpers.sh
+- wget -O ${fname} http://bit.ly/travis_helpers
+- cat ${fname}; source ${fname}; rm ${fname}
+- cat DESCRIPTION
+- start_xvfb ;
+- ffmpeg_install ;
+- if [ "$TRAVIS_OS_NAME" = "osx" ]; 
+  then 
+    no_open_mp ; 
+  fi
+
+after_success:
+- if [ "$TRAVIS_OS_NAME" == "linux" ]; 
+  then 
+    Rscript -e 'covr::codecov(type = "all")';
+  fi
+
+before_deploy: 
+  - if [ "$TRAVIS_OS_NAME" == "osx" ]; 
+    then 
+      rm -f *.tar.gz; 
+    fi
+
+deploy:
+  provider: releases
+  api_key:
+    secure: FWrnyvSc7M4yOdgorug9hipg/TCMDIW5F8+WwbKW3PSPmGct5f6FkMxFbpkxI29DQeY2AFORP9Zy8x8obOCA/jUhcaOVutfe+aElpNOvNXfc+kSYJKutwz32v3oMg1PCClv26rMzutXlRY1RdjLqeuh7ct8v3F308/mWnSl1ip89t/8lQn2PXGKVf0WHkUwjTxb7C8vufMD/KXdhDzrXqg6MXJAhPfVBXB5YEh0zvaTSUAjxL6cb8yjD8ZvtoLBBOqRvqQtkpE4WBhMdDFUyDzbddRiI++lrQIQnuaCybOAjVGUIHMYLwfq/oIhbfvH9+7ahqimK75eXRzYLSnhJdklznw/zcOyW2TQx86kVBaKZIHoDG3rgmCX8uT4ijtXTk2l/ry66rX35U1UHYKXQPqfczSNJmspgbpdQWYjRRHJdVkrSFp0ewXyflsMZMG19dx+Ss3PnfWGuenAQEY3ItZaSvxYSElJenciFWDlfyTcKp4itp83fi6DQu4XBn0PzJMBxq9IYa1hOuhs0ricDImmKyKi5ODjMEihg4z9/Ra7AnYu7vhE8SiBzrixzurEuq/qfLIM1dqyKGwUlgWyIYj2nKti62VZxXWsy18AB4oNiUjXvgxAmdVRjG063XlahHkngwCxOg9Ne3JmuNgGoygOExTJ2TiWv+FLOog1wXsk=
+  skip_cleanup: yes
+  file_glob: yes
+  file: instructr*.t*gz
+  'on':
+    tags: yes
+    repo: muschellij2/instructr
+

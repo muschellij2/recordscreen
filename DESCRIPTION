@@ -19,5 +19,10 @@ Suggests:
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
+Roxygen: list(markdown = TRUE)
 URL: https://github.com/muschellij2/instructr
 BugReports: https://github.com/muschellij2/instructr/issues
+Imports: 
+    tools,
+    sys
+RoxygenNote: 6.1.1

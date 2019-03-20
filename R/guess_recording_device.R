@@ -1,10 +1,11 @@
 #' Guess the Recording Device for `ffmpeg`
 #'
-#' @return
+#' @return A character string of a recording device
 #' @export
 #' @md
 #'
 #' @examples
+#' guess_recording_device()
 guess_recording_device = function() {
   switch(sys_type(),
          windows = "dshow",
