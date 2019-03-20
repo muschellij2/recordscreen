@@ -15,6 +15,9 @@ knitr::opts_chunk$set(
 # instructr
 
 <!-- badges: start -->
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/muschellij2/instructr?branch=master&svg=true)](https://ci.appveyor.com/project/muschellij2/instructr)
+[![Travis build status](https://travis-ci.org/muschellij2/instructr.svg?branch=master)](https://travis-ci.org/muschellij2/instructr)
+[![Codecov test coverage](https://codecov.io/gh/muschellij2/instructr/branch/master/graph/badge.svg)](https://codecov.io/gh/muschellij2/instructr?branch=master)
 <!-- badges: end -->
 
 The goal of instructr is to ...
