@@ -55,7 +55,11 @@ start_screen_record = function(device = guess_recording_device(),
                      ifelse(audio, "1", ""))
   # macos_cap = paste0('"', macos_cap, '"')
 
-  linux_cap = paste0(video, ":0.0", "")
+  linux_cap = if (video) {
+    ":0.0"
+    } else {
+      NULL
+    }
   capturer = switch(sys_type(),
                     windows = I(windows_cap),
                     macos = I(macos_cap),
@@ -68,7 +72,7 @@ start_screen_record = function(device = guess_recording_device(),
   }
   args = c(outfile,
            "-f", device,
-           "-i", capturer,
+           if (!is.null(capturer)) c("-i", capturer),
            args)
 
   if (!run) {
