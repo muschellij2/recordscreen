@@ -15,6 +15,3 @@ A logical vector same length as \code{pid}
 \description{
 End Screen Record
 }
-\examples{
-
-}
