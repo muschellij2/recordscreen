@@ -20,8 +20,8 @@
 #' res = Sys.which("ffmpeg")
 #' stopifnot(res != "")
 #' start_screen_record(run = FALSE)
-#' out = start_screen_record(audio = FALSE)
-#' Sys.sleep(2)
+#' out = start_screen_record(audio = FALSE, show_std_err = TRUE)
+#' Sys.sleep(4)
 #' res = end_screen_record(out$pid)
 #' stopifnot(file.exists(out$outfile))
 #' if (interactive()) {
