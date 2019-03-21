@@ -2,6 +2,9 @@
 
 export(end_screen_record)
 export(guess_recording_device)
+export(list_input_devices)
+export(list_output_devices)
 export(start_screen_record)
 importFrom(sys,exec_background)
+importFrom(sys,exec_internal)
 importFrom(tools,pskill)

@@ -41,6 +41,7 @@ https://trac.ffmpeg.org/wiki/Capture/Desktop
 \examples{
 res = Sys.which("ffmpeg")
 stopifnot(res != "")
+print(list_output_devices())
 start_screen_record(run = FALSE)
 out = start_screen_record(audio = FALSE, show_std_err = TRUE)
 Sys.sleep(4)
