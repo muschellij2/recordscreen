@@ -21,8 +21,8 @@ LazyData: true
 VignetteBuilder: knitr
 SystemRequirements: ffmpeg
 Roxygen: list(markdown = TRUE)
-URL: https://github.com/muschellij2/instructr
-BugReports: https://github.com/muschellij2/instructr/issues
+URL: https://github.com/muschellij2/recordscreen
+BugReports: https://github.com/muschellij2/recordscreen/issues
 Imports: 
     tools,
     sys

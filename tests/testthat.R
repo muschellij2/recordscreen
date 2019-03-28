@@ -1,4 +1,4 @@
 library(testthat)
-library(instructr)
+library(recordscreen)
 
-test_check("instructr")
+test_check("recordscreen")
