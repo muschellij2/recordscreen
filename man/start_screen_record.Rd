@@ -50,5 +50,12 @@ stopifnot(file.exists(out$outfile))
 if (interactive()) {
    sys::exec_wait("open", args = out$outfile)
 }
+out = start_screen_record(audio = FALSE,
+outfile = tempfile(fileext = ".gif"), show_std_err = TRUE)
+Sys.sleep(4)
+res = end_screen_record(out$pid)
+stopifnot(file.exists(out$outfile))
+
+
 
 }

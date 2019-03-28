@@ -14,6 +14,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, out.width="100%"}
 library(recordscreen)
+out = start_screen_record(audio = FALSE,
+                          outfile = tempfile(fileext = ".gif"))
+Sys.sleep(4)
+res = end_screen_record(out$pid)
+stopifnot(file.exists(out$outfile))
+knitr::include_graphics(out$outfile, auto_pdf = FALSE)
 ```

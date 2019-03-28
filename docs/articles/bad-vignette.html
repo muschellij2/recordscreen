@@ -90,7 +90,15 @@
 
     
     
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(recordscreen)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(recordscreen)</a>
+<a class="sourceLine" id="cb1-2" title="2">out =<span class="st"> </span><span class="kw"><a href="../reference/start_screen_record.html">start_screen_record</a></span>(<span class="dt">audio =</span> <span class="ot">FALSE</span>,</a>
+<a class="sourceLine" id="cb1-3" title="3">                          <span class="dt">outfile =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/tempfile">tempfile</a></span>(<span class="dt">fileext =</span> <span class="st">".gif"</span>))</a>
+<a class="sourceLine" id="cb1-4" title="4"><span class="co">#&gt; pid is 57645</span></a>
+<a class="sourceLine" id="cb1-5" title="5"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Sys.sleep">Sys.sleep</a></span>(<span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb1-6" title="6">res =<span class="st"> </span><span class="kw"><a href="../reference/end_screen_record.html">end_screen_record</a></span>(out<span class="op">$</span>pid)</a>
+<a class="sourceLine" id="cb1-7" title="7"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/stopifnot">stopifnot</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/files">file.exists</a></span>(out<span class="op">$</span>outfile))</a>
+<a class="sourceLine" id="cb1-8" title="8">knitr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/knitr/topics/include_graphics">include_graphics</a></span>(out<span class="op">$</span>outfile, <span class="dt">auto_pdf =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="../../../../../../private/var/folders/1s/wrtqcpxn685_zk570bnx9_rr0000gr/T/Rtmp8mJya0/filee1235f749106.gif" width="100%"></p>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
