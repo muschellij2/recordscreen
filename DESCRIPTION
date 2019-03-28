@@ -1,6 +1,6 @@
 Type: Package
-Package: instructr
-Title: Record Screen Instruction
+Package: recordscreen
+Title: Record Screen 
 Version: 0.1.0
 Authors@R: 
     person(given = "John",
