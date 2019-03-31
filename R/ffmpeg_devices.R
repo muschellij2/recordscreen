@@ -4,7 +4,6 @@
 #' @param args arguments to pass to [sys::exec_internal] to
 #' `ffmpeg`
 #' @export
-#' @importFrom sys exec_internal
 #'
 #' @examples
 #' print(list_output_devices())
@@ -13,9 +12,13 @@ list_output_devices = function(
   args = c("-devices")
 ) {
 
-  pid <- sys::exec_internal("ffmpeg",
-                              args = args)
-  devs = rawToChar(pid$stdout)
+  res = processx::process$new(command = "ffmpeg", args = args, stdout = "|")
+  devs = res$read_all_output()
+
+  # pid <- sys::exec_internal("ffmpeg",
+  #                             args = args)
+  # devs = rawToChar(pid$stdout)
+
   devs = strsplit(devs, "\n")[[1]]
   devs = trimws(devs)
   breaker = grep("--", devs)

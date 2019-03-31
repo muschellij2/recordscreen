@@ -15,6 +15,7 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
+    sys,
     testthat
 Encoding: UTF-8
 LazyData: true
@@ -29,5 +30,6 @@ Imports:
     rstudioapi,
     magick,
     hms,
-    ps 
+    ps,
+    processx
 RoxygenNote: 6.1.1

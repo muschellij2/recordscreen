@@ -6,9 +6,8 @@
 #' @export
 #' @importFrom tools pskill
 end_screen_record = function(pid) {
-  # tools::pskill(pid)
   hdl = ps::ps_handle(pid = pid)
-  ps::ps_kill(hdl)
+  ps::ps_interrupt(hdl)
   !is_screen_recording(pid)
 }
 

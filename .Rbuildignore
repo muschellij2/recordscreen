@@ -3,5 +3,8 @@
 ^appveyor\.yml$
 ^README\.Rmd$
 ^LICENSE\.md$
-^instructr\.Rproj$
+^recordscreen\.Rproj$
 ^\.Rproj\.user$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

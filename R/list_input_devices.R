@@ -21,8 +21,11 @@ list_input_devices = function(
   if (device %in% "avfoundation") {
     args = c(args, "-i", '""')
   }
-  pid <- sys::exec_internal("ffmpeg",
-                            args = args, error = FALSE)
-  res = strsplit(rawToChar(pid$stderr), split = "\n")[[1]]
-  res
+  # pid <- sys::exec_internal("ffmpeg",
+  #                           args = args, error = FALSE)
+  # res = strsplit(rawToChar(pid$stderr), split = "\n")[[1]]
+  res = processx::process$new(command = "ffmpeg", args = args, stderr = "|")
+  string = res$read_all_error()
+  string = string[ grepl("device", string)]
+  string
 }
