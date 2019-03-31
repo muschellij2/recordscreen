@@ -5,14 +5,17 @@
 \title{Start Screen Recording}
 \usage{
 start_screen_record(device = guess_recording_device(),
-  outfile = tempfile(fileext = ".avi"), args = NULL,
+  outfile = tempfile(fileext = ".avi"), duration = NULL, args = NULL,
   overwrite = TRUE, audio = FALSE, video = TRUE, run = TRUE,
-  verbose = TRUE, show_std_err = FALSE)
+  verbose = FALSE, show_std_err = FALSE)
 }
 \arguments{
 \item{device}{Device to record on}
 
 \item{outfile}{Output filename (with extension)}
+
+\item{duration}{record for a fixed duration, passed to the
+\code{args}, in seconds}
 
 \item{args}{additional arguments to pass to \code{ffmpeg}}
 
@@ -42,20 +45,18 @@ https://trac.ffmpeg.org/wiki/Capture/Desktop
 res = Sys.which("ffmpeg")
 stopifnot(res != "")
 print(list_output_devices())
+tempdir(check = TRUE)
 start_screen_record(run = FALSE)
 out = start_screen_record(audio = FALSE, show_std_err = TRUE)
 Sys.sleep(4)
 res = end_screen_record(out$pid)
 stopifnot(file.exists(out$outfile))
-if (interactive()) {
-   sys::exec_wait("open", args = out$outfile)
-}
+
 out = start_screen_record(audio = FALSE,
 outfile = tempfile(fileext = ".gif"), show_std_err = TRUE)
 Sys.sleep(4)
 res = end_screen_record(out$pid)
 stopifnot(file.exists(out$outfile))
-
 
 
 }

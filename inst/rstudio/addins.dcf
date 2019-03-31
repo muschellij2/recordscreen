@@ -1,0 +1,10 @@
+Name: Record Script
+Description: Record Script Execution in RStudio Window
+Binding: record_script_selection
+Interactive: false
+
+Name: Record Script Walk
+Description: Record Script Execution, Command by Command
+Binding: record_script_walk
+Interactive: false
+

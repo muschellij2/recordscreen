@@ -9,10 +9,13 @@
 #' @param run Should the code be run (default `TRUE`) or simply
 #' have the arguments printed (`FALSE`)
 #' @param verbose print diagnostic messages
+#' @param duration record for a fixed duration, passed to the
+#' `args`, in seconds
 #' @param show_std_err Show `STDERR` output, passed to [sys::exec_background].
+#' @importFrom hms hms
+#' @importFrom processx process
 #'
 #' @return A list of the process ID and output file.
-#' @importFrom sys exec_background
 #' @note https://trac.ffmpeg.org/wiki/Capture/Desktop
 #' @export
 #'
@@ -20,14 +23,13 @@
 #' res = Sys.which("ffmpeg")
 #' stopifnot(res != "")
 #' print(list_output_devices())
+#' tempdir(check = TRUE)
 #' start_screen_record(run = FALSE)
 #' out = start_screen_record(audio = FALSE, show_std_err = TRUE)
 #' Sys.sleep(4)
 #' res = end_screen_record(out$pid)
 #' stopifnot(file.exists(out$outfile))
-#' if (interactive()) {
-#'    sys::exec_wait("open", args = out$outfile)
-#' }
+#'
 #' out = start_screen_record(audio = FALSE,
 #' outfile = tempfile(fileext = ".gif"), show_std_err = TRUE)
 #' Sys.sleep(4)
@@ -35,15 +37,15 @@
 #' stopifnot(file.exists(out$outfile))
 #'
 #'
-#'
 start_screen_record = function(device = guess_recording_device(),
                                outfile = tempfile(fileext = ".avi"),
+                               duration = NULL,
                                args = NULL,
                                overwrite = TRUE,
                                audio = FALSE,
                                video = TRUE,
                                run = TRUE,
-                               verbose = TRUE,
+                               verbose = FALSE,
                                show_std_err = FALSE
 ) {
   if (file.exists(outfile)){
@@ -67,9 +69,9 @@ start_screen_record = function(device = guess_recording_device(),
 
   linux_cap = if (video) {
     ":0.0"
-    } else {
-      NULL
-    }
+  } else {
+    NULL
+  }
   capturer = switch(sys_type(),
                     windows = I(windows_cap),
                     macos = I(macos_cap),
@@ -80,10 +82,18 @@ start_screen_record = function(device = guess_recording_device(),
       args = c(args, "-f", "alsa", "-ac", "2", "-i", "hw:0")
     }
   }
-  args = c(outfile,
-           "-f", device,
-           if (!is.null(capturer)) c("-i", capturer),
-           args)
+  xduration = duration
+  if (!is.null(duration)) {
+    duration = hms::hms(seconds = duration)
+    duration = as.character(duration)
+  }
+  args = c(
+    "-y", # overwrite
+    if (!is.null(duration)) c("-t", duration),
+    outfile,
+    "-f", device,
+    if (!is.null(capturer)) c("-i", capturer),
+    args)
 
   if (!run) {
     print(paste(args, collapse = " "))
@@ -93,17 +103,44 @@ start_screen_record = function(device = guess_recording_device(),
     message("args are")
     print(args)
   }
-  pid <- sys::exec_background("ffmpeg",
-                              args = args,
-                              std_err = show_std_err)
+  # pid <- sys::exec_background("ffmpeg",
+  #                             args = args,
+  #                             std_err = show_std_err)
+  pid = processx::process$new(command = "ffmpeg", args = args)
   if (verbose) {
-    message("pid is ", pid)
+    if (inherits(pid, "process")) {
+      message("pid is ", pid$get_pid())
+    } else {
+      message("pid is ", pid)
+    }
   }
   L = list(pid = pid,
-           outfile = outfile,
-           args = args)
+           process = pid)
+  if (inherits(pid, "process")) {
+    L = list(pid = pid$get_pid(),
+             process = pid)
+  }
+  L$outfile = outfile
+  L$args = args
+  L$duration = xduration
+  class(L) = "screen_recording"
   return(L)
 }
 
 
 
+#' Print method for screen_recording
+#'
+#' @return NULL
+#' @param x an object used to select a method.
+#' @param ... further arguments passed to or from other methods
+#' @export
+#'
+#' @examples
+#' x = list(process =  processx::process$new("ls"))
+#' class(x) = "screen_recording"
+#' print(x)
+#' @method print screen_recording
+print.screen_recording = function(x, ...) {
+  print(x$process)
+}

@@ -1,7 +1,7 @@
 Type: Package
 Package: recordscreen
 Title: Record Screen 
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person(given = "John",
            family = "Muschelli",
@@ -25,5 +25,9 @@ URL: https://github.com/muschellij2/recordscreen
 BugReports: https://github.com/muschellij2/recordscreen/issues
 Imports: 
     tools,
-    sys
+    clipr,
+    rstudioapi,
+    magick,
+    hms,
+    ps 
 RoxygenNote: 6.1.1
