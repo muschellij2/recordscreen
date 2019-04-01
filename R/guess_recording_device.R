@@ -7,8 +7,12 @@
 #' @examples
 #' guess_recording_device()
 guess_recording_device = function() {
-  switch(sys_type(),
+  rec_device = Sys.getenv("RECORDING_DEVICE")
+  if (rec_device != "") {
+    rec_device = switch(sys_type(),
          windows = "dshow",
          macos = "avfoundation",
          linux = "x11grab")
+  }
+  rec_device
 }
