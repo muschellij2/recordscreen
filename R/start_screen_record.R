@@ -24,13 +24,13 @@
 #' print(list_output_devices())
 #' tempdir(check = TRUE)
 #' start_screen_record(run = FALSE)
-#' out = start_screen_record(audio = FALSE, show_std_err = TRUE)
+#' out = start_screen_record(audio = FALSE)
 #' Sys.sleep(4)
 #' res = end_screen_record(out$pid)
 #' stopifnot(file.exists(out$outfile))
 #'
 #' out = start_screen_record(audio = FALSE,
-#' outfile = tempfile(fileext = ".gif"), show_std_err = TRUE)
+#' outfile = tempfile(fileext = ".gif"))
 #' Sys.sleep(4)
 #' res = end_screen_record(out)
 #' stopifnot(file.exists(out$outfile))
