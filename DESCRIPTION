@@ -16,6 +16,7 @@ Suggests:
     knitr,
     rmarkdown,
     sys,
+    magick,
     testthat
 Encoding: UTF-8
 LazyData: true
@@ -28,7 +29,6 @@ Imports:
     tools,
     clipr,
     rstudioapi,
-    magick,
     hms,
     ps,
     processx
