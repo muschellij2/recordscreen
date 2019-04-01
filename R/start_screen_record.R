@@ -11,7 +11,6 @@
 #' @param verbose print diagnostic messages
 #' @param duration record for a fixed duration, passed to the
 #' `args`, in seconds
-#' @param show_std_err Show `STDERR` output, passed to [sys::exec_background].
 #' @importFrom hms hms
 #' @importFrom processx process
 #'
@@ -45,8 +44,7 @@ start_screen_record = function(device = guess_recording_device(),
                                audio = FALSE,
                                video = TRUE,
                                run = TRUE,
-                               verbose = FALSE,
-                               show_std_err = FALSE
+                               verbose = FALSE
 ) {
   if (file.exists(outfile)){
     if (!overwrite) {
@@ -106,7 +104,8 @@ start_screen_record = function(device = guess_recording_device(),
   # pid <- sys::exec_background("ffmpeg",
   #                             args = args,
   #                             std_err = show_std_err)
-  pid = processx::process$new(command = "ffmpeg", args = args)
+  pid = processx::process$new(command = "ffmpeg", args = args,
+                             stderr = "|", stdout = "|")
   if (verbose) {
     if (inherits(pid, "process")) {
       message("pid is ", pid$get_pid())

@@ -7,7 +7,7 @@
 start_screen_record(device = guess_recording_device(),
   outfile = tempfile(fileext = ".avi"), duration = NULL, args = NULL,
   overwrite = TRUE, audio = FALSE, video = TRUE, run = TRUE,
-  verbose = FALSE, show_std_err = FALSE)
+  verbose = FALSE)
 }
 \arguments{
 \item{device}{Device to record on}
@@ -29,8 +29,6 @@ start_screen_record(device = guess_recording_device(),
 have the arguments printed (\code{FALSE})}
 
 \item{verbose}{print diagnostic messages}
-
-\item{show_std_err}{Show \code{STDERR} output, passed to \link[sys:exec_background]{sys::exec_background}.}
 }
 \value{
 A list of the process ID and output file.
