@@ -14,5 +14,12 @@ guess_recording_device = function() {
          macos = "avfoundation",
          linux = "x11grab")
   }
+  df = list_formats()
+  if (!rec_device %in% df$device) {
+    df = df$device[ grepl("input", df$description)]
+    df = paste(df, collapse = " ")
+    warning(paste0("Device ", rec_device),
+            " not listed in formats, maybe try", df)
+  }
   rec_device
 }
