@@ -10,3 +10,12 @@ testthat::test_that("Simple recording", {
 
 
 })
+
+testthat::test_that("Duration works", {
+  out = start_screen_record(audio = FALSE, duration = 5)
+  Sys.sleep(10)
+  stopifnot(!out$process$is_alive())
+  testthat::expect_true(file.exists(out$outfile))
+  fz = file.size(out$outfile)
+  testthat::expect_true(fz > 50000)
+})

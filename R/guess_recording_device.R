@@ -19,7 +19,7 @@ guess_recording_device = function() {
     df = df$device[ grepl("input", df$description)]
     df = paste(df, collapse = " ")
     warning(paste0("Device ", rec_device),
-            " not listed in formats, maybe try", df)
+            " not listed in formats, maybe try ", df)
   }
   rec_device
 }
