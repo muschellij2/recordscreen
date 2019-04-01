@@ -10,7 +10,8 @@ end_screen_record(pid)
 is_screen_recording(pid)
 }
 \arguments{
-\item{pid}{Process ID from the screen recording}
+\item{pid}{Process ID from the screen recording or a
+\code{screen_recording}}
 }
 \value{
 A logical vector same length as \code{pid}

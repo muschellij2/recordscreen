@@ -1,8 +1,8 @@
 ---
-title: "bad-vignette"
+title: "Simple Screen Recording"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{bad-vignette}
+  %\VignetteIndexEntry{Simple Screen Recording}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,12 +14,14 @@ knitr::opts_chunk$set(
 )
 ```
 
+Here we do a simple screen recording: 
+
 ```{r setup, out.width="100%"}
 library(recordscreen)
 out = start_screen_record(audio = FALSE,
                           outfile = tempfile(fileext = ".gif"))
 Sys.sleep(4)
-res = end_screen_record(out$pid)
+res = end_screen_record(out)
 stopifnot(file.exists(out$outfile))
 knitr::include_graphics(out$outfile, auto_pdf = FALSE)
 ```
