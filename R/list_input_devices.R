@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' list_input_devices()
-#' list_format
+#' list_formats()
 list_input_devices = function(
   device = guess_recording_device(),
   args = c("-hide_banner", "-f", device, "-list_devices", "true")

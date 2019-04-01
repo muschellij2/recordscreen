@@ -24,5 +24,5 @@ List \code{ffmpeg} Input Devices
 }
 \examples{
 list_input_devices()
-list_format
+list_formats()
 }
