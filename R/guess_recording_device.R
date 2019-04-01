@@ -8,7 +8,7 @@
 #' guess_recording_device()
 guess_recording_device = function() {
   rec_device = Sys.getenv("RECORDING_DEVICE")
-  if (rec_device != "") {
+  if (rec_device == "") {
     rec_device = switch(sys_type(),
          windows = "dshow",
          macos = "avfoundation",
