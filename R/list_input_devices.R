@@ -10,7 +10,7 @@
 #'
 #' @examples
 #' list_input_devices()
-#' list_formats()
+#' list_format
 list_input_devices = function(
   device = guess_recording_device(),
   args = c("-hide_banner", "-f", device, "-list_devices", "true")
@@ -39,8 +39,16 @@ list_formats = function() {
                               args = args,
                               stderr = "|",
                               stdout = "|")
+  devs = ""
+  while (TRUE) {
+    devs = res$read_all_output()
+    if (devs != "") {
+      break
+    }
+  }
+  res$interrupt()
 
-  devs = paste(res$read_output_lines(), collapse = "\n")
+  devs = paste(devs, collapse = "\n")
   devs = strsplit(devs, "\n")[[1]]
   devs = trimws(devs)
   breaker = grep("--", devs)
