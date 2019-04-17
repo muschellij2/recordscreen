@@ -2,12 +2,18 @@
 % Please edit documentation in R/record_script_selection.R
 \name{record_script_walk}
 \alias{record_script_walk}
+\alias{record_script_walk2}
 \title{Record Script Selection}
 \usage{
 record_script_walk(output_ext = getOption("record.ext", "gif"))
+
+record_script_walk2(output_ext = getOption("record.ext", "gif"),
+  start_position = c(0, 0))
 }
 \arguments{
 \item{output_ext}{Extension of the output filename}
+
+\item{start_position}{a document position to start}
 }
 \value{
 A filename of the output video

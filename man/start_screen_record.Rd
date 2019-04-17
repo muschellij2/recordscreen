@@ -6,8 +6,8 @@
 \usage{
 start_screen_record(device = guess_recording_device(),
   outfile = tempfile(fileext = ".avi"), duration = NULL, args = NULL,
-  overwrite = TRUE, audio = FALSE, video = TRUE, run = TRUE,
-  verbose = FALSE)
+  video_number = 1, audio_number = 1, overwrite = TRUE,
+  audio = FALSE, video = TRUE, run = TRUE, verbose = FALSE)
 }
 \arguments{
 \item{device}{Device to record on}
@@ -18,6 +18,10 @@ start_screen_record(device = guess_recording_device(),
 \code{args}, in seconds}
 
 \item{args}{additional arguments to pass to \code{ffmpeg}}
+
+\item{video_number}{number of video device}
+
+\item{audio_number}{number of audio device}
 
 \item{overwrite}{Should output file be overwritten if it exists?}
 
@@ -46,12 +50,32 @@ print(list_output_devices())
 tempdir(check = TRUE)
 start_screen_record(run = FALSE)
 out = start_screen_record(audio = FALSE)
+out
 Sys.sleep(4)
-res = end_screen_record(out$pid)
+out
+res = end_screen_record(out)
 stopifnot(file.exists(out$outfile))
+
+out = start_screen_record(audio = TRUE, verbose = 2)
+out
+Sys.sleep(4)
+out
+res = end_screen_record(out)
+stopifnot(file.exists(out$outfile))
+
+out = start_screen_record(audio = TRUE, video = FALSE,
+outfile = tempfile(fileext = ".mp3"), verbose = 2)
+out
+Sys.sleep(4)
+out
+res = end_screen_record(out)
+stopifnot(file.exists(out$outfile))
+mp3 = tuneR::readMP3(out$outfile)
+range(mp3@left)
 
 out = start_screen_record(audio = FALSE,
 outfile = tempfile(fileext = ".gif"))
+out
 Sys.sleep(4)
 res = end_screen_record(out)
 stopifnot(file.exists(out$outfile))

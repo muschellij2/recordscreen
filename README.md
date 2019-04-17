@@ -17,7 +17,41 @@ with `ffmpeg` to be able to show script execution. A system installation
 Sys.which("ffmpeg")
 ```
 
-## Installation
+## Errors with Mac OSX Mojave and RStudio
+
+You need to authorize RStudio to use the mic/camera in Mojave. The
+changes were due to this:
+<https://developer.apple.com/documentation/avfoundation/cameras_and_media_capture/requesting_authorization_for_media_capture_on_macos>
+and fixed here <https://github.com/rstudio/rstudio/issues/4579>
+
+If you an’t access video/audio from RStudio IDE, then see issue here
+<https://github.com/rstudio/rstudio/issues/4579>. If you run into this,
+make sure you have RStudio version \>= 1.3. To access this version
+download daily build <https://dailies.rstudio.com/>, authorize (use
+audio and opencv packages for force auth)
+
+``` r
+if (!requireNamespace("opencv"))
+  install.packages("opencv")
+
+library(opencv)
+ocv_video(ocv_edges)
+```
+
+``` r
+if (!requireNamespace("audio"))
+  install.packages("audio")
+
+library(audio)
+x <- rep(NA_real_, 50000)
+# start recording into x
+record(x, 22000, 1)
+stopifnot(diff(range(x, na.rm = TRUE)) > 0)
+```
+
+Then download whatever RStudio you want.
+
+  - Make sure you go to System Preferences \#\# Installation
 
 You can install `recordscreen` from GitHub with:
 

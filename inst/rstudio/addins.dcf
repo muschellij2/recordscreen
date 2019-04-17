@@ -8,3 +8,8 @@ Description: Record Script Execution, Command by Command
 Binding: record_script_walk
 Interactive: false
 
+Name: Record Script Walk2
+Description: Record Script Execution, Command by Command
+Binding: record_script_walk2
+Interactive: false
+

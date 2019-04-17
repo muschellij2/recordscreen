@@ -1,7 +1,7 @@
 Type: Package
 Package: recordscreen
 Title: Record Screen 
-Version: 0.1.1
+Version: 0.2.0
 Authors@R: 
     person(given = "John",
            family = "Muschelli",
@@ -15,6 +15,7 @@ Suggests:
     covr,
     knitr,
     rmarkdown,
+    tuneR,
     sys,
     magick,
     testthat

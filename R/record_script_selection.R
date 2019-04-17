@@ -62,16 +62,38 @@ record_script_walk = function(output_ext = getOption("record.ext", "gif")) {
   rstudioapi::setCursorPosition(c(0, 0), id = res$id)
   res = rstudioapi::getSourceEditorContext()
   # while (!end_of_document(res)) {
-    res = rstudioapi::getSourceEditorContext()
-    rstudioapi::executeCommand("executeCode")
-    # rstudioapi::executeCommand("executeCurrentParagraph")
-    Sys.sleep(4)
+  res = rstudioapi::getSourceEditorContext()
+  rstudioapi::executeCommand("executeCode")
+  # rstudioapi::executeCommand("executeCurrentParagraph")
+  Sys.sleep(4)
   # }
   # Sys.sleep(4)
 
   result = end_screen_record(out$pid)
   check_output(out)
   return(out$outfile)
+}
+
+
+#' @export
+#' @rdname record_script_walk
+#' @param start_position a document position to start
+record_script_walk2 = function(
+  output_ext = getOption("record.ext", "gif"),
+  start_position = c(0, 0)) {
+  res = rstudioapi::getSourceEditorContext()
+  rstudioapi::setCursorPosition(start_position, id = res$id)
+  res = rstudioapi::getSourceEditorContext()
+  # while (!end_of_document(res)) {
+  for (i in 1:3) {
+    res = rstudioapi::getSourceEditorContext()
+    rstudioapi::executeCommand("executeCode")
+    # rstudioapi::executeCommand("executeCurrentParagraph")
+    Sys.sleep(4)
+  }
+  # }
+  # Sys.sleep(4)
+  return(NULL)
 }
 
 end_of_document = function(res) {

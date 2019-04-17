@@ -11,6 +11,8 @@
 #' @param verbose print diagnostic messages
 #' @param duration record for a fixed duration, passed to the
 #' `args`, in seconds
+#' @param audio_number number of audio device
+#' @param video_number number of video device
 #' @importFrom hms hms
 #' @importFrom processx process
 #'
@@ -25,12 +27,32 @@
 #' tempdir(check = TRUE)
 #' start_screen_record(run = FALSE)
 #' out = start_screen_record(audio = FALSE)
+#' out
 #' Sys.sleep(4)
-#' res = end_screen_record(out$pid)
+#' out
+#' res = end_screen_record(out)
 #' stopifnot(file.exists(out$outfile))
+#'
+#' out = start_screen_record(audio = TRUE, verbose = 2)
+#' out
+#' Sys.sleep(4)
+#' out
+#' res = end_screen_record(out)
+#' stopifnot(file.exists(out$outfile))
+#'
+#' out = start_screen_record(audio = TRUE, video = FALSE,
+#' outfile = tempfile(fileext = ".mp3"), verbose = 2)
+#' out
+#' Sys.sleep(4)
+#' out
+#' res = end_screen_record(out)
+#' stopifnot(file.exists(out$outfile))
+#' mp3 = tuneR::readMP3(out$outfile)
+#' range(mp3@left)
 #'
 #' out = start_screen_record(audio = FALSE,
 #' outfile = tempfile(fileext = ".gif"))
+#' out
 #' Sys.sleep(4)
 #' res = end_screen_record(out)
 #' stopifnot(file.exists(out$outfile))
@@ -40,6 +62,8 @@ start_screen_record = function(device = guess_recording_device(),
                                outfile = tempfile(fileext = ".avi"),
                                duration = NULL,
                                args = NULL,
+                               video_number = 1,
+                               audio_number = 1,
                                overwrite = TRUE,
                                audio = FALSE,
                                video = TRUE,
@@ -60,9 +84,12 @@ start_screen_record = function(device = guess_recording_device(),
                        ifelse(audio & video, ":", ""),
                        ifelse(audio, 'audio="Microphone"', ""))
 
-  macos_cap = paste0(ifelse(video, "1", ""),
-                     ifelse(audio & video, ":", ""),
-                     ifelse(audio, "1", ""))
+  macos_cap = paste0(ifelse(video, video_number, ""),
+                     ifelse(audio, ":", ""),
+                     ifelse(audio, audio_number, ""))
+  # if (audio) {
+  #   macos_cap = paste0('"', macos_cap, '"')
+  # }
   # macos_cap = paste0('"', macos_cap, '"')
 
   linux_cap = if (video) {
@@ -71,8 +98,8 @@ start_screen_record = function(device = guess_recording_device(),
     NULL
   }
   capturer = switch(sys_type(),
-                    windows = I(windows_cap),
-                    macos = I(macos_cap),
+                    windows = windows_cap,
+                    macos = macos_cap,
                     linux = linux_cap
   )
   if (sys_type() == "linux") {
@@ -88,10 +115,10 @@ start_screen_record = function(device = guess_recording_device(),
   args = c(
     "-y", # overwrite
     if (!is.null(duration)) c("-t", duration),
-    outfile,
     "-f", device,
+    args,
     if (!is.null(capturer)) c("-i", capturer),
-    args)
+    outfile)
 
   if (!run) {
     print(paste(args, collapse = " "))
@@ -100,12 +127,16 @@ start_screen_record = function(device = guess_recording_device(),
   if (verbose > 1) {
     message("args are")
     print(args)
+    print(dput(args))
+    print(paste(c("ffmpeg", args), collapse = " "))
   }
   # pid <- sys::exec_background("ffmpeg",
   #                             args = args,
   #                             std_err = show_std_err)
   pid = processx::process$new(command = "ffmpeg", args = args,
-                             stderr = "|", stdout = "|")
+                             stderr = "|", stdout = "|",
+                             echo_cmd = verbose > 1,
+                             supervise = TRUE)
   if (verbose) {
     if (inherits(pid, "process")) {
       message("pid is ", pid$get_pid())
@@ -123,6 +154,11 @@ start_screen_record = function(device = guess_recording_device(),
   L$args = args
   L$duration = xduration
   class(L) = "screen_recording"
+  while (TRUE) {
+    if (L$process$is_alive()) {
+      break
+    }
+  }
   return(L)
 }
 
